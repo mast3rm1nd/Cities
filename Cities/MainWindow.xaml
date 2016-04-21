@@ -1,0 +1,16 @@
+﻿<Window x:Class="Cities.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Cities"
+        mc:Ignorable="d"
+        Title="Города" Height="626" Width="323" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+    <Grid>
+        <Label x:Name="label" Content="Ваш вариант:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="UserCity_TextBox" HorizontalAlignment="Left" Height="23" Margin="98,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="207" MaxLines="1"/>
+        <TextBox x:Name="Log_TextBox" Margin="10,70,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Height="515" VerticalAlignment="Top" HorizontalAlignment="Left" Width="295"/>
+        <Button x:Name="SayCity_Button" Content="Назвать" HorizontalAlignment="Left" VerticalAlignment="Top" Width="295" RenderTransformOrigin="1.333,3.75" Margin="10,41,0,0" Height="24" Click="SayCity_Button_Click" IsDefault="True"/>
+
+    </Grid>
+</Window>

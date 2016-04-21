@@ -1,0 +1,95 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+using System.IO;
+
+namespace Cities
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        List<string> allCities = new List<string>();
+        List<string> usedCities = new List<string>();
+
+        char lastLetter;
+
+        public MainWindow()
+        {
+            InitializeComponent();
+            allCities.AddRange(File.ReadAllText("Cities.txt").Split(' '));
+        }
+
+        private void SayCity_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var userVariant = UserCity_TextBox.Text.ToLower();
+
+            var userFirstLetter = userVariant[0];
+
+            if(usedCities.Exists(x => x.ToLower() == userVariant))
+            {
+                Log_TextBox.Text += String.Format("Вы: {0} - такой город уже назывался. Предложите другой вариант.", userVariant) + Environment.NewLine;
+                return;
+            }
+
+            var userCityIndex = allCities.FindIndex(x => x.ToLower() == userVariant);
+
+            if (userCityIndex == -1)
+            {
+                Log_TextBox.Text += String.Format("Вы: {0} - такого города нет в базе. Предложите другой вариант.", userVariant) + Environment.NewLine;
+                return;
+            }
+            else
+            {
+                Log_TextBox.Text += String.Format("Вы: {0}", userVariant) + Environment.NewLine;
+                lastLetter = userVariant[userVariant.Length - 1];
+
+                usedCities.Add(allCities[userCityIndex]);
+
+                allCities.RemoveAt(userCityIndex);
+
+                SayCity();
+                return;
+            }
+
+            //if(allCities.Exists(x => x.ToLower()[0] == userFirstLetter))
+            //{
+
+            //}
+
+            lastLetter = userVariant[userVariant.Length - 1];
+        }
+
+        private void SayCity()
+        {
+            var indexOfFoudCity = allCities.FindIndex(x => x.ToLower()[0] == lastLetter);
+
+            if (indexOfFoudCity == -1)
+            {
+                Log_TextBox.Text += String.Format("Компьютер: Сдаюсь. В моей базе больше нет городов на букву {0}.", lastLetter) + Environment.NewLine;
+                Log_TextBox.Text += String.Format("Вы победили!!") + Environment.NewLine;
+                InitializeGame();
+                Log_TextBox.Text += String.Format("Игра начата заново.") + Environment.NewLine;
+            }
+        }
+
+        void InitializeGame()
+        {
+            usedCities.Clear();
+            allCities.Clear();
+            allCities.AddRange(File.ReadAllText("Cities.txt").Split(' '));
+        }
+    }
+}
